@@ -1,0 +1,129 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+  <head> 
+    <base href="/public">
+    @include('admin.css')
+    <style type="text/css">
+    label{
+        display: inline-block;
+        width: 200px;
+    }
+    .div_deg{
+        padding-top: 30px;
+    }
+    .div_centre{
+        text-align: center;
+        padding-top: 40px;
+    }
+   
+    </style>
+  </head> 
+
+  
+  <body>
+        
+    @include('admin.header')
+    @include('admin.sidebar')
+
+   
+        <div class="page-content">
+            <div class="page-header">
+              <div class="container-fluid">
+                <form action="{{ route('edit_room', $data->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf  <!-- ✅ Add this line to include CSRF token -->
+                    <div class="div_centre">
+                        <h1 style="font-size: 30px ;font-wight:bold;">Update Rooms </h1>
+
+                <div class="div_deg">
+                <label for="room_number">Room Number:</label>
+                <input type="text" id="room_number" name="room_number" value="{{ old('room_number', $data->room_number) }}" required>
+
+               </div>
+
+               <div class="div_deg">
+                <label for="room_title">Room title:</label>
+                <input type="text" id="room_title" name="room_title" value="{{ old('room_title', $data->room_title) }}" required>
+
+               </div>
+              
+            <div class="div_deg">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="3" required> {{($data->description)}}</textarea>
+            </div>
+            <div class="div_deg">
+                <label for="price_per_night">Price per Night ($):</label>
+                <input type="number" id="price_per_night" name="price_per_night" step="0.01" value="{{($data->price_per_night)}}" required >
+            </div>
+            
+          <div class="div_deg">  
+        <label for="room_type">Room Type:</label>
+        <select id="room_type" name="room_type" required> 
+        <option  selected value="{{$data->room_type}}">{{$data->room_type}}</option>
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="suite">Suite</option>
+           
+        </select>
+    </div>
+   
+    <div class="div_deg">
+        <label for="status">Room Status:</label>
+        <select id="status" name="status" required>
+            <option  selected value="{{$data->status}}">{{$data->status}}</option>
+            <option value="available">Available</option>
+            <option value="occupied">Occupied</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="housekeeping">Housekeeping</option>
+            <option value="out_of_order">Out of Order</option>
+        </select>
+    </div>
+    
+
+<div class="div_deg">>
+    <label for="image">Room Image:</label>
+    <input type="file" id="image" name="images" accept="image/*">
+</div>
+<div>
+        <button type="submit">Update Room</button>
+    </div>
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+    </form>
+       
+              </div>
+            </div>
+        </div>
+    
+
+  
+    @include('admin.footer')
+    
+
+
+  </body>
+</html>
+
+
+
+
+    <!-- Checkbox to toggle the 'available' status -->
+    <label>
+        <input type="hidden" name="available" value="0"> <!-- Ensures unchecked checkboxes send a value -->
+        <input type="checkbox" name="available" value="1" {{ $data->status == 'available' ? 'checked' : '' }}>
+        Available
+    </label>
+    
+        <button type="submit">update Room</button>
+    </form>
+    
+
+</body>
+</html> --}}
