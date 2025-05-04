@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Salary;
 use App\Models\Booking;
+use App\Models\Contact;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -21,6 +22,9 @@ class AdminController extends Controller
                 return view('home.index',compact('room'));
             }else if(Auth::user()->usertype=='admin') {
                 return view('admin.home');
+            }elseif(Auth::user()->usertype== 'receptionist') { 
+                 return view('receptionist.home');
+
             }
         }else {
             return redirect()->back();
@@ -58,11 +62,11 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Room added successfully!');
         dd($request->all());
     }
+    public function view_room(){
+        $data = Room::with('bookings')->get(); // loads related bookings
+        return view('admin.view_room', compact('data'));
+    }
     
-        public function view_room(){
-            $data = Room::all();
-            return view('admin.view_room',compact('data'));
-        }
         public function room_delete($id){
             $data =Room::find($id);
             $data->delete();
@@ -114,8 +118,10 @@ class AdminController extends Controller
         $image = $request->file('profile_picture');
         $imageName = time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('employee_profiles'), $imageName);
-        $employee->profile_picture = $imageName;
+        $employee->profile_picture = $imageName; // match the actual DB column name
     }
+    
+    
 
     $employee->save();
 
@@ -124,10 +130,26 @@ class AdminController extends Controller
 
         
         
-        public function view_employee(){
-            $data = Employee::all();
-            return view('admin.view_employee',compact('data'));
-        }
+public function view_employee(Request $request)
+{
+    $query = Employee::query();
+
+    if ($request->has('search') && !empty($request->search)) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('first_name', 'like', "%$search%")
+              ->orWhere('last_name', 'like', "%$search%")
+              ->orWhere('email', 'like', "%$search%")
+              ->orWhere('role', 'like', "%$search%")
+              ->orWhere('department', 'like', "%$search%");
+        });
+    }
+
+    $data = $query->paginate(10); // Use pagination
+
+    return view('admin.view_employee', compact('data'));
+}
+
         public function employee_delete($id){
             $data =Employee::find($id);
             $data->delete();
@@ -161,23 +183,31 @@ class AdminController extends Controller
             return redirect()->back()->with('success', 'employee updated successfully!');
         }
         public function showAddSalaryForm()
-{
-    $employees = \App\Models\Employee::all();
-    return view('admin.add_salary', compact('employees'));
-}
-
-public function storeSalary(Request $request)
-{
-    $request->validate([
-        'employee_id' => 'required|exists:employees,id',
-        'amount' => 'required|numeric',
-        'payment_date' => 'required|date',
-    ]);
-
-    \App\Models\Salary::create($request->all());
-
-    return redirect()->back()->with('success', 'Salary record added successfully!');
-}
+        {
+            // Pass 'employees' to the view
+            $employees = \App\Models\Employee::all();
+            return view('admin.add_salary', compact('employees'));
+        }
+        
+        public function storeSalary(Request $request)
+        {
+            // Validate the incoming request data
+            $request->validate([
+                'employee_id' => 'required|exists:employees,id',
+                'amount' => 'required|numeric',
+                'payment_date' => 'required|date',
+            ]);
+        
+            // Use only validated data for the creation of a new salary record
+            $salaryData = $request->only(['employee_id', 'amount', 'payment_date']);
+        
+            // Create the salary record in the database
+            \App\Models\Salary::create($salaryData);
+        
+            // Redirect back with a success message
+            return redirect()->back()->with('success', 'Salary record added successfully!');
+        }
+        
 public function viewSalaries()
 {
     $salaries = Salary::with('employee')->get();
@@ -185,6 +215,7 @@ public function viewSalaries()
 }
 public function room_details($id){
     $room = Room::find($id);
+    
     return view ('home.room_details',compact('room'));
 
 }
@@ -215,40 +246,36 @@ return view('admin.view_reservations',compact('data'));
          $booking-> save();
     return redirect ()->back();
     }
+    public function contact(Request $request)
+    {
+        // Save the contact data
+        $contact = new Contact;
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->phone = $request->phone;
+        $contact->message = $request->message;
+        $contact->save();
+    
+        // Redirect back to the previous page
+        return redirect()->back()->with('success', 'Your message has been sent!');
     }
-  
-     // Create a new department (admin-only)
-    //  public function createDepartment(Request $request)
-    //  {
-    //      $request->validate([
-    //          'name' => 'required|string|max:255|unique:departments',
-    //          'description' => 'nullable|string',
-    //      ]);
- 
-    //      return Department::create($request->all());
-    //  }
- 
-    //  // Update a department (admin-only)
-    //  public function updateDepartment(Request $request, $id)
-    //  {
-    //      $department = Department::findOrFail($id);
- 
-    //      $request->validate([
-    //          'name' => 'string|max:255|unique:departments,name,' . $department->id,
-    //          'description' => 'nullable|string',
-    //      ]);
- 
-    //      $department->update($request->all());
-    //      return $department;
-    //  }
- 
-    //  // Delete a department (admin-only)
-    //  public function deleteDepartment($id)
-    //  {
-    //      $department = Department::findOrFail($id);
-    //      $department->delete();
-    //      return response(null, 204);
-    //  }
+    public function all_messages(){
+        $data = Contact::all();
+        return view('admin.all_messages',compact('data'));
+    }
+
+    public function showServices()
+    {
+        $user = auth()->user();
+    
+        // You could filter services only for guests that are checked-in, if needed
+        $services = \App\Models\AlternativeService::where('guest_id', $user->id)->get();
+    
+        return view('home.services', compact('services'));
+    }
     
 
 
+    }
+  
+    

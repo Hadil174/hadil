@@ -14,47 +14,58 @@ class BookingController extends Controller
  
     public function add_booking(Request $request, $id)
     {
-        // Validate the request data
         $request->validate([
             'startDate' => 'required|date',
             'endDate'   => 'required|date|after:startDate',
+            'name'      => 'required|string',
+            'email'     => 'required|email',
+            'phone'     => 'required',
         ]);
     
-        // Convert dates to correct format
         $startDate = date('Y-m-d', strtotime($request->startDate));
         $endDate   = date('Y-m-d', strtotime($request->endDate));
     
-        // Check if the room is already booked
         $isBooked = Booking::where('room_id', $id)
             ->where('start_date', '<=', $endDate)
             ->where('end_date', '>=', $startDate)
             ->exists();
     
-        // If room is already booked, show an error message
         if ($isBooked) {
             return redirect()->back()->with('error', 'Room is already booked. Please try different dates.');
         }
     
-        // Create a new booking
-        $data = new Booking;
-        $data->room_id   = $id;
-        $data->name      = $request->name;
-        $data->email     = $request->email;
-        $data->phone     = $request->phone;
-        $data->start_date = $startDate;
-        $data->end_date  = $endDate;
+        // Store the booking info temporarily in session
+        session([
+            'pending_booking' => [
+                'room_id'    => $id,
+                'name'       => $request->name,
+                'email'      => $request->email,
+                'phone'      => $request->phone,
+                'start_date' => $startDate,
+                'end_date'   => $endDate,
+            ]
+        ]);
     
-        try {
-            $data->save();  // Save the booking data
-            return redirect()->back()->with('success', 'Room booked successfully!');
-        } catch (\Exception $e) {
-            // If there's an error, show an error message
-            return redirect()->back()->with('error', 'Failed to book room. Please try different dates.');
-        }
+        $room = Room::findOrFail($id);
+    
+        return view('home.payment', compact('room', 'startDate', 'endDate'));
     }
     
-
-
+    
+    public function showForm($id)
+    {
+        $room = Room::findOrFail($id);
+        return view('receptionist.book_room', compact('room'));
+    }
+    public function book_room($id)
+    {
+        // Fetch the specific room by its ID
+        $room = Room::findOrFail($id); 
+    
+        // Return the booking form view with the room data
+        return view('receptionist.book_room', compact('room'));
+    }
+    
 
 
 

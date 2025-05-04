@@ -124,6 +124,11 @@
 
                             @auth
                             <div class="user-actions">
+                                <a href="{{ url('request_service') }}" class="profile-btn">
+                                    <i class="fas fa-concierge-bell"></i> Services
+                                </a>
+                                
+                                
                                 <a href="{{ route('profile.show') }}" class="profile-btn">
                                     <i class="fas fa-user"></i> Profile
                                 </a>

@@ -2,25 +2,78 @@
 <html>
 <head> 
     @include('admin.css')
-    <style type="text/css">
-        .table_deg{
-            border: 2px solid white;
-            margin: auto;
-            width: 100%;
-            text-align: center;
-            margin-top: 40px;
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
         }
-        .th_deg{
-            background-color: rgb(248, 209, 161);
-            padding: 10px;
 
+        .container-fluid {
+            padding: 30px;
         }
-        tr{
-            border: 3px solid white ;
+
+        .table-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow-x: auto;
         }
-        td{
-            padding: 10px;
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
         }
+
+        .table th, .table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .table th {
+            background-color: #f1f3f5;
+            color: #333;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .header-actions input {
+            padding: 6px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .header-actions .btn-add {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+
     </style>
 </head>
 <body>
@@ -28,16 +81,16 @@
     @include('admin.sidebar')
 
     <div class="page-content">
-        <div class="page-header">
-            <div class="container-fluid">
-                <h2>All Salaries</h2>
-                <table border="1" cellpadding="8">
+        <div class="container-fluid">
+            <h2>All Salaries</h2>
+            <div class="table-container">
+                <table class="table">
                     <thead>
                         <tr>
-                            <th class="th_deg">Employee</th>
-                            <th  class="th_deg">Amount</th>
-                            <th  class="th_deg">Payment Date</th>
-                            <th  class="th_deg">Note</th>
+                            <th>Employee</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th>Note</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,8 +103,7 @@
                                 <td>{{ $salary->notes }}</td>
                             </tr>
                         @endif
-                    @endforeach
-                    
+                        @endforeach
                     </tbody>
                 </table>
             </div>

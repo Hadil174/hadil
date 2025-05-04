@@ -7,21 +7,22 @@
         .table_deg{
             border: 2px solid white;
             margin: auto;
-            width: 80%;
+            width: 50%;
             text-align: center;
             margin-top: 40px;
         }
         .th_deg{
             background-color: rgb(248, 209, 161);
-            padding: 8px;
+            padding: 6px;
 
         }
         tr{
-            border: 3px solid white ;
+            border: 2px solid white ;
         }
         td{
-            padding: 10px;
+            padding: 9px;
         }
+        
 
         </style>
   </head> 

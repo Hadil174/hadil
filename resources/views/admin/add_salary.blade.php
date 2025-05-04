@@ -1,74 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Add Salary</title>
     @include('admin.css')
     <style type="text/css">
-        label{
-            display: inline-block;
-            width: 200px;
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        .div_deg{
-            padding-top: 30px;
+
+        .form-group {
+            margin-bottom: 15px;
         }
-        .div_centre{
-            text-align: center;
-            padding-top: 40px;
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
         }
-       
-        </style>
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+        }
+
+        .btn-submit {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     @include('admin.header')
     @include('admin.sidebar')
 
     <div class="page-content">
-        <div class="page-header">
-            <div class="container-fluid">
-        <h2>Add Salary Details</h2>
+        <div class="container-fluid">
+            <h2>Add Salary</h2>
+            <div class="form-container">
+                <form action="{{ url('admin/add_salary') }}" method="POST">
+                    @csrf
+                    <!-- Employee Selection -->
+                    <div class="form-group">
+                        <label for="employee_id">Employee</label>
+                        <select name="employee_id" id="employee_id" required>
+                            <option value="" disabled selected>Select an Employee</option>
+                            @foreach($employees as $employee)
+                                <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        @if(session('success'))
-            <div>{{ session('success') }}</div>
-        @endif
+                    <!-- Amount -->
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" name="amount" id="amount" required>
+                    </div>
 
-        <form action="{{ url('/add_salary') }}" method="POST">
-            @csrf
-            <div>
-                <label for="employee_id">Employee:</label>
-                <select name="employee_id" required>
-                    @foreach($employees as $employee)
-                        <option value="{{ $employee->id }}">
-                            {{ $employee->first_name }} {{ $employee->last_name }}
-                        </option>
-                    @endforeach
-                </select>
+                    <!-- Payment Date -->
+                    <div class="form-group">
+                        <label for="payment_date">Payment Date</label>
+                        <input type="date" name="payment_date" id="payment_date" required>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea name="notes" id="notes" rows="4"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit">Add Salary</button>
+                </form>
             </div>
-
-            <div>
-                <label for="amount">Amount:</label>
-                <input type="number" name="amount" step="0.01" required>
-            </div>
-
-            <div>
-                <label for="payment_date">Payment Date:</label>
-                <input type="date" name="payment_date" required>
-            </div>
-
-            <div>
-                <label for="payment_method">Payment Method:</label>
-                <input type="text" name="payment_method">
-            </div>
-
-            <div>
-                <label for="notes">Notes:</label>
-                <textarea name="notes"></textarea>
-            </div>
-
-            <button type="submit">Add Salary</button>
-        </form>
+        </div>
     </div>
-  </div>
-  </div>
 
     @include('admin.footer')
 </body>

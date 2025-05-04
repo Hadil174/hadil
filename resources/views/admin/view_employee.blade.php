@@ -1,98 +1,167 @@
-
-
-
 <!DOCTYPE html>
 <html>
-  <head> 
+<head>
     @include('admin.css')
-    <style type="text/css">
-        .table_deg{
-            border: 2px solid white;
-            margin: auto;
-            width: 60%;
-            max-width: 900px; 
-            text-align: center;
-            margin-top: 40px;
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
         }
-        .th_deg{
-            background-color: rgb(248, 209, 161);
-            padding: 8px;
 
+        .container-fluid {
+            padding: 30px;
         }
-        tr{
-            border: 3px solid white ;
-        }
-        td{
-            padding: 10px;
-        }
-        td, th {
-    padding: 7px; /* reduce cell padding */
-    font-size: 12px;    /* smaller font if needed */
-    white-space: nowrap;
-}
 
-        </style>
-  </head> 
-  
-  
-  
-  <body>
+        .table-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .table th, .table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .table th {
+            background-color: #f1f3f5;
+            color: #333;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .table img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .header-actions input {
+            padding: 6px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .header-actions .btn-add {
+            background-color: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+
+
+<body>
     @include('admin.header')
     @include('admin.sidebar')
-    
+
     <div class="page-content">
-        <div class="page-header">
-          <div class="container-fluid">
-            <table>
-                <thead>
-                    <tr>
-                        <th  class="th_deg">picture</th>
-                        <th  class="th_deg">first name</th>
-                        <th  class="th_deg">last name</th>
-                        <th  class="th_deg">email </th>
-                        <th  class="th_deg">phone</th>
-                        <th  class="th_deg">address</th>
-                        <th  class="th_deg">role</th>
-                        <th  class="th_deg">Department</th>
-                        <th  class="th_deg">Hire Date</th>
-                        <th  class="th_deg">Status</th>
-                       
-                            {{-- <th>image</th> --}}
-                            <th  class="th_deg">delete</th>
-                            <th  class="th_deg">update</th>
-                       
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($data as $data)
-                    <tr>
-                        <td>{{$data->profile_picture}}</td>
-                        <td>{{$data->first_name}}</td>
-                        <td>{{$data->last_name}}</td>
-                        <td>{{$data->email}}</td>
-                        <td>{{$data->phone}}</td>
-                        <td>{{$data->address}}</td>
-                        <td>{{$data->role}}</td>
-                        <td>{{$data->department}}</td>
-                        <td>{{$data->hire_date}}</td>
-                       
-                        <td>{{$data->employment_status}}</td>
-                        
-                        <td>
-                            <a  class="btn btn-danger" href="{{url('employee_delete',$data->id)}}">delete</a>
-                        </td>
-                        <td>
-                            <a  class="btn btn-warning" href="{{url('employee_update',$data->id)}}">update</a>
-                        </td>
-                    </tr>
-                   
-                    @endforeach
-                </tbody>
-            </table>
-            
+        <div class="container-fluid">
+            <div class="table-container">
+                <div class="header-actions">
+                    <form method="GET" action="{{ url('view_employee') }}" class="d-flex" style="display: flex; gap: 10px;">
+                        <input type="text" name="search" placeholder="Search by name, role..." value="{{ request('search') }}">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                    <a href="{{ url('manage_employee') }}" class="btn btn-add">+ Add Employee</a>
+                </div>
+                >
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Role</th>
+                            <th>Department</th>
+                            <th>Hire Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $employee)
+                            <tr>
+                                <td>
+                                    @if ($employee->profile_picture)
+                                        <img src="{{ asset('employee_profiles/' . $employee->profile_picture) }}" alt="Profile Picture">
+                                    @else
+                                        <span>No Image</span>
+                                    @endif
+                                </td>
+                                <td>{{ $employee->first_name }}</td>
+                                <td>{{ $employee->last_name }}</td>
+                                <td>{{ $employee->email }}</td>
+                                <td>{{ $employee->phone }}</td>
+                                <td>{{ $employee->address }}</td>
+                                <td>{{ $employee->role }}</td>
+                                <td>{{ $employee->department }}</td>
+                                <td>{{ $employee->hire_date }}</td>
+                                <td>{{ $employee->employment_status }}</td>
+                                <td class="actions">
+                                    <a href="{{ url('employee_update', $employee->id) }}" class="btn btn-warning">Update</a>
+                                    <a href="{{ url('employee_delete', $employee->id) }}" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                {{-- Optional: Add pagination --}}
+                {{-- {{ $data->links() }} --}}
             </div>
         </div>
     </div>
+
     @include('admin.footer')
-  </body>
+</body>
 </html>

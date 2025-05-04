@@ -18,7 +18,7 @@
             {{-- <li><a href="tables.html"> <i class="icon-grid"></i>Tables </a></li>
             <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Charts </a></li>
             <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li> --}}
-            <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Hotels Room </a>
+            <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">    <i class="fas fa-hotel icon"></i> Hotels Room</i> </a>
               <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                <li><a href="{{ url('create_room') }}">add Room</a></li> 
                 <li><a href="{{ url('view_room') }}">view room</a></li>
@@ -30,8 +30,8 @@
                 <i class="fa fa-users"></i> Human Resources
               </a>
               <ul id="hrDropdown" class="collapse list-unstyled">
-                  <li><a href="{{ url('manage_employee') }}">Add Employee</a></li>
-                  <li><a href="{{ url('view_employee') }}">View Employees</a></li>
+                 
+                  <li><a href="{{ url('view_employee') }}">Employees</a></li>
                   <li><a href="{{ url('add_salary') }}">Add salary</a></li>
                   <li><a href="{{ url('salaries') }}">Salary Details</a></li>
                   <!-- Add other HR related links here -->
@@ -46,6 +46,16 @@
                 <li><a href="{{ url('reservation_history') }}">Reservation History</a></li>
             </ul>
         </li>
+        <li>
+          <a href="#messageDropdown" aria-expanded="false" data-toggle="collapse">
+              <i class="fas fa-envelope"></i> Messages
+          </a>
+          <ul id="messageDropdown" class="collapse list-unstyled">
+              <li><a href="{{ url('all_messages') }}">all Messages</a></li>
+              <li><a href="{{ url('unread_contacts') }}">Unread Messages</a></li>
+          </ul>
+      </li>
+      
            
         
           

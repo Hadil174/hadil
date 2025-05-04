@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Room;
+use App\Models\Employee;
+
 class HousekeepingController extends Controller
 {
     public function markAsClean(Request $request, Room $room)

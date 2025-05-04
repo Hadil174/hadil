@@ -195,7 +195,8 @@
                     </ul>
                 @endif
                 
-                  <form action="{{url('add_booking',$room->id)}}" method="post">
+                <form action="{{ url('/add_booking/' . $room->id) }}" method="POST">
+
                     @csrf
 
                     <div class="booking-box">
@@ -230,7 +231,7 @@
                         </div>
                     </div>
                 </form>
-                </div>
+                
             </div>
         </div>
     </div>

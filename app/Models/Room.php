@@ -44,9 +44,15 @@ public function getImageUrlAttribute()
         'last_maintenance_date' => 'datetime',
         'needs_maintenance' => 'boolean',
     ];
-    public function reservations()
+    public function bookings()
+    {
+        return $this->hasMany(\App\Models\Booking::class);
+    }
+    // app/Models/Room.php
+
+public function lastCleanedBy()
 {
-    return $this->hasMany(Reservation::class);
+    return $this->belongsTo(Employee::class, 'last_cleaned_by');
 }
 
 }

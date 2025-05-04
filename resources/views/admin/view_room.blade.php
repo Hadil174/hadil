@@ -57,7 +57,8 @@
                             <td>{{ $room->room_title }}</td>
                             <td>{{ $room->room_type }}</td>
                             <td>{{ $room->price_per_night }}Da</td>
-                            <td>{{ $room->status }}</td>
+                                <td>{{ $room->status }}</td>
+                                          
                             <td>{!! \Illuminate\Support\Str::limit($room->description, 150) !!}
                             </td>
                             <td>

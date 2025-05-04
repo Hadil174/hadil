@@ -32,5 +32,11 @@ class Employee extends Model
 {
     return $this->hasMany(Salary::class);
 }
+// app/Models/Employee.php
+
+public function cleanedRooms()
+{
+    return $this->hasMany(Room::class, 'last_cleaned_by');
+}
 
 }
