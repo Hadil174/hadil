@@ -1,32 +1,34 @@
 <?php
 
-namespace App\Notifications;
+// app/Notifications/NewServiceRequest.php
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Bus\Queueable;
 
-class AdditionalServiceRequested extends Notification
+class NewServiceRequest extends Notification
 {
     use Queueable;
 
-    protected $serviceData;
+    public $serviceRequest;
 
-    public function __construct($serviceData)
+    public function __construct($serviceRequest)
     {
-        $this->serviceData = $serviceData;
+        $this->serviceRequest = $serviceRequest;
     }
 
-    public function via(object $notifiable): array
+    public function via($notifiable)
     {
-        return ['database']; // store in notifications table
+        return ['database']; // Store in DB
     }
 
-    public function toDatabase(object $notifiable): array
+    public function toDatabase($notifiable)
     {
         return [
-            'message' => 'New additional service requested.',
-            'service_name' => $this->serviceData['service_name'],
-            'time' => now()->toDateTimeString(),
+            'message' => 'New service request from guest: ' . $this->serviceRequest->guest->name,
+            'service_name' => $this->serviceRequest->service_name,
+            'price' => $this->serviceRequest->price,
+            'guest_id' => $this->serviceRequest->guest_id,
+            'service_id' => $this->serviceRequest->id,
         ];
     }
 }

@@ -6,6 +6,9 @@ use App\Http\Controllers\bookingController;
 use App\Http\Controllers\ReceptionistController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\PaypalController;
+use App\Models\AlternativeService; // ✅ CORRECT
+
+
 
 
 
@@ -79,7 +82,11 @@ Route::post('/notifications/{id}/read', function ($id) {
     auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
     return response()->noContent();
 });
+Route::get('/notification', [ReceptionistController::class, 'all_service_requests'])->name('receptionist.notifications');
+
 
 Route::post('paypal', [PaypalController::class, 'paypal'])->name('paypal');
 Route::get('success', [PaypalController::class, 'success'])->name('success');
 Route::get('cancel',[PaypalController::class,'cancel'])->name('cancel');
+
+

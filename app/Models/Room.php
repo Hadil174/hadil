@@ -54,5 +54,9 @@ public function lastCleanedBy()
 {
     return $this->belongsTo(Employee::class, 'last_cleaned_by');
 }
+public function services()
+{
+    return $this->hasMany(Service::class);
+}
 
 }

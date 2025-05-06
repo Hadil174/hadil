@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('alternative_services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('guest_id')->constrained('users')->onDelete('cascade');
+          
             $table->string('service_name');
             $table->decimal('price', 8, 2);
             $table->text('notes')->nullable();

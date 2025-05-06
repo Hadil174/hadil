@@ -160,7 +160,7 @@
               </a>
           </li>
           <li>
-              <a href="{{ url('room_service') }}">
+              <a href="{{  route('receptionist.notifications') }}">
                   <i class="fas fa-concierge-bell"></i>
                   <span>Room Service</span>
               </a>

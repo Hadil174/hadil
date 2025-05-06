@@ -25,11 +25,28 @@
             Logout <i class="icon-logout"></i>
           </a>
         </div>
-        <div class="notification-dropdown">
-          <button class="notification-bell">
-              <i class="fas fa-bell"></i>
-              <span class="badge badge-danger" id="notification-count">{{ auth()->user()->unreadNotifications->count() }}</span>
-          </button>
+        @php
+        $notifications = auth()->user()->unreadNotifications;
+    @endphp
+    
+    <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="fa fa-bell"></i>
+            @if($notifications->count())
+                <span class="badge badge-danger">{{ $notifications->count() }}</span>
+            @endif
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            @forelse($notifications as $notification)
+                <a href="#" class="dropdown-item">
+                    {{ $notification->data['message'] }} - {{ $notification->data['service_name'] }} (${{ $notification->data['price'] }})
+                </a>
+            @empty
+                <span class="dropdown-item">No new notifications</span>
+            @endforelse
+        </div>
+    </li>
+    
           
      
 

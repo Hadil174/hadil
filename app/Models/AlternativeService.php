@@ -15,10 +15,18 @@ class AlternativeService extends Model
         'notes',
     ];
 
-    // Relationship with User model (for guests)
-    public function user()
+    public function guest()
     {
         return $this->belongsTo(User::class, 'guest_id');
     }
+  
+    
+   // app/Models/AlternativeService.php
+
+public function room()
+{
+    return $this->belongsTo(Room::class);
+}
+
   
 }

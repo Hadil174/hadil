@@ -158,6 +158,7 @@ public function createNewServiceRequest(Request $request)
 {
     $validated = $request->validate([
         'guest_id' => 'required|exists:users,id',
+     
         'service_name' => 'required|string',
         'price' => 'required|numeric',
         'notes' => 'nullable|string',
@@ -165,24 +166,25 @@ public function createNewServiceRequest(Request $request)
 
     $serviceRequest = AlternativeService::create($validated);
 
-    // Notify all receptionists
-    $receptionists = User::where('usertype', 'receptionist')->get();
-
-    foreach ($receptionists as $receptionist) {
-        $receptionist->notify(new NewServiceRequest($serviceRequest));
-    }
 
     return back()->with('success', 'Service request submitted!');
 }
 
+
 // In your NewServiceRequest notification class
-public function toDatabase($notifiable)
+// public function notification(){
+//     $data = Contact::all();
+//     return view('receptionist.notification',compact('data'));
+// }
+
+
+public function all_service_requests()
 {
-    return [
-        'message' => 'New request: '.$this->serviceRequest->type,
-        'service_name' => $this->serviceRequest->service_name,
-        // Add any other data you display in your dropdown
-    ];
+    $services = AlternativeService::with(['guest', 'room'])->latest()->get();
+
+    return view('receptionist.notification', compact('services'));
 }
+
+
 }
 

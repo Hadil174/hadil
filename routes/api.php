@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HousekeepingController;
-use App\Http\Controllers\ReservationController;
+
 
 
 Route::get('/user', function (Request $request) {
@@ -26,7 +26,5 @@ Route::get('/create_room', [AdminController::class, 'create_room']);
 
 
 
-Route::patch('/rooms/{room}/clean', [HousekeepingController::class, 'markAsClean']);
 
-Route::post('/reservations', [ReservationController::class, 'createReservation']);
 
