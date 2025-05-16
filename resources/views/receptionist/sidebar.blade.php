@@ -153,12 +153,7 @@
           </li>
   
           <li class="sidebar-section-title">Guest Services</li>
-          <li>
-              <a href="{{ url('guest_list') }}">
-                  <i class="fas fa-users"></i>
-                  <span>Guest Management</span>
-              </a>
-          </li>
+          
           <li>
               <a href="{{  route('receptionist.notifications') }}">
                   <i class="fas fa-concierge-bell"></i>

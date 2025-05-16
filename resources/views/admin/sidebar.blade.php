@@ -22,7 +22,7 @@
               <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                <li><a href="{{ url('create_room') }}">add Room</a></li> 
                 <li><a href="{{ url('view_room') }}">view room</a></li>
-                <li><a href="#">Page</a></li>
+               
               </ul>
             </li>
             <li>
@@ -43,7 +43,7 @@
             </a>
             <ul id="reservationDropdown" class="collapse list-unstyled">
                 <li><a href="{{ url('view_reservations') }}">View Reservations</a></li>
-                <li><a href="{{ url('reservation_history') }}">Reservation History</a></li>
+                >
             </ul>
         </li>
         <li>
@@ -52,7 +52,7 @@
           </a>
           <ul id="messageDropdown" class="collapse list-unstyled">
               <li><a href="{{ url('all_messages') }}">all Messages</a></li>
-              <li><a href="{{ url('unread_contacts') }}">Unread Messages</a></li>
+             
           </ul>
       </li>
       

@@ -4,120 +4,133 @@
     <base href="/public">
     @include('receptionist.css')
     <style type="text/css">
+        body {
+            background-color: #121212;
+            color: #e2e8f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         .page-content {
-            background-color: #f8f9fa;
-            padding: 30px 0;
+            padding: 40px 0;
         }
-        
+
         .booking-container {
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
-            padding: 30px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 35px;
+            background: #1e1e2f;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
-        
+
         .booking-header {
             text-align: center;
-            margin-bottom: 30px;
-            color: #4a5568;
-            font-size: 28px;
-            font-weight: 600;
+            margin-bottom: 35px;
+            color: #90cdf4;
+            font-size: 30px;
+            font-weight: bold;
             position: relative;
-            padding-bottom: 15px;
+            padding-bottom: 12px;
         }
-        
-        .booking-header:after {
+
+        .booking-header::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
+            width: 100px;
             height: 3px;
-            background: #4299e1;
+            background: #63b3ed;
+            border-radius: 50px;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 500;
-            color: #4a5568;
-            font-size: 14px;
+            font-weight: 600;
+            color: #cbd5e0;
+            font-size: 15px;
         }
-        
+
         .form-group input {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
+            border: 1px solid #2d3748;
+            border-radius: 10px;
             font-size: 15px;
+            background-color: #2d3748;
+            color: #e2e8f0;
             transition: all 0.3s;
-            background-color: #f8fafc;
         }
-        
+
         .form-group input:focus {
+            border-color: #63b3ed;
+            box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.3);
             outline: none;
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
-            background-color: white;
+            background-color: #1a202c;
         }
-        
+
         .btn-book {
             width: 100%;
             padding: 14px;
-            background: #4299e1;
+            background: #3182ce;
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
-        
+
         .btn-book:hover {
-            background: #3182ce;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+            background: #2b6cb0;
+            transform: scale(1.02);
+            box-shadow: 0 4px 14px rgba(49, 130, 206, 0.4);
         }
-        
+
         .room-info {
-            background: #f0f9ff;
+            background: #2c5282;
             padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border-left: 4px solid #4299e1;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            color: #f7fafc;
         }
-        
+
         .room-info h3 {
-            color: #2b6cb0;
             margin-top: 0;
             margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #bee3f8;
         }
-        
+
         .room-info p {
             margin: 5px 0;
-            color: #4a5568;
+            color: #e2e8f0;
         }
-        
+
         .room-info .price {
             font-size: 18px;
             font-weight: 600;
-            color: #2b6cb0;
+            color: #90cdf4;
         }
-        
+
         @media (max-width: 768px) {
             .booking-container {
-                padding: 20px;
+                padding: 25px;
+            }
+
+            .booking-header {
+                font-size: 24px;
             }
         }
     </style>
@@ -130,7 +143,7 @@
         <div class="page-header">
             <div class="container-fluid">
                 <div class="booking-container">
-                    <div class="booking-header">Book Room</div>
+                    <div class="booking-header">Book Your Room</div>
                     
                     <!-- Room Information -->
                     <div class="room-info">
@@ -140,7 +153,7 @@
                         <p class="price"><strong>Price:</strong> {{ $room->price_per_night }} DA per night</p>
                     </div>
                     
-                    <form action="{{ url('add_booking', $room->id) }}" method="post">
+                    <form action="{{ route('process.booking', $room->id) }}" method="post">
                         @csrf
                         
                         <div class="form-group">
@@ -197,7 +210,6 @@
             $('#startDate').attr('min', minDate);
             $('#endDate').attr('min', minDate);
             
-            // Set end date to be after start date
             $('#startDate').change(function() {
                 var startDate = $(this).val();
                 $('#endDate').attr('min', startDate);

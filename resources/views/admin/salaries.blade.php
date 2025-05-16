@@ -5,7 +5,8 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background-color: #f4f6f9;
+            background-color: #121212;
+            color: #e0e0e0;
         }
 
         .container-fluid {
@@ -13,10 +14,10 @@
         }
 
         .table-container {
-            background-color: #fff;
+            background-color: #4d4c4c;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.8);
             overflow-x: auto;
         }
 
@@ -24,22 +25,23 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
+            color: #e0e0e0;
         }
 
         .table th, .table td {
             padding: 10px 12px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #333;
             text-align: left;
             white-space: nowrap;
         }
 
         .table th {
-            background-color: #f1f3f5;
-            color: #333;
+            background-color: #2c2c2c;
+            color: #a0a0a0;
         }
 
         .table tbody tr:hover {
-            background-color: #f9f9f9;
+            background-color: #333333;
         }
 
         .header-actions {
@@ -52,13 +54,26 @@
         .header-actions input {
             padding: 6px;
             font-size: 13px;
-            border: 1px solid #ccc;
+            border: 1px solid #555;
             border-radius: 5px;
+            background-color: #2c2c2c;
+            color: #e0e0e0;
         }
 
-        .header-actions .btn-add {
-            background-color: #28a745;
+        .btn-add {
+            background-color: #4caf50;
             color: white;
+            padding: 7px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-add:hover {
+            background-color: #388e3c;
         }
 
         .btn {
@@ -67,6 +82,7 @@
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
+            color: #e0e0e0;
         }
 
         .btn-warning {
@@ -82,7 +98,11 @@
 
     <div class="page-content">
         <div class="container-fluid">
-            <h2>All Salaries</h2>
+            <div class="header-actions">
+                <h2>All Salaries</h2>
+               
+            </div>
+
             <div class="table-container">
                 <table class="table">
                     <thead>

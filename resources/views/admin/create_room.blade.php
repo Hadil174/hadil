@@ -4,19 +4,73 @@
   <head> 
     @include('admin.css')
     <style type="text/css">
-    label{
-        display: inline-block;
-        width: 200px;
-    }
-    .div_deg{
-        padding-top: 30px;
-    }
-    .div_centre{
-        text-align: center;
-        padding-top: 40px;
-    }
-   
+        label {
+            display: inline-block;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+    
+        .div_deg {
+            padding: 10px 0;
+        }
+    
+        .form-container {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 40px auto; /* ✅ Center horizontally */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    
+        .div_centre {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+    
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        textarea,
+        select {
+            width: calc(100% - 210px); /* Match label + spacing */
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+    
+        textarea {
+            resize: vertical;
+        }
+    
+        button[type="submit"] {
+            margin-top: 20px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        button[type="submit"]:hover {
+            background-color: #388e3c;
+        }
+    
+        .success-message {
+            background-color: #d4edda;
+            padding: 10px;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
     </style>
+    
   </head> 
 
   
@@ -68,8 +122,6 @@
         <select id="status" name="status" required>
             <option value="available">Available</option>
             <option value="occupied">Occupied</option>
-            <option value="maintenance">Maintenance</option>
-            <option value="housekeeping">Housekeeping</option>
             <option value="out_of_order">Out of Order</option>
         </select>
     </div>

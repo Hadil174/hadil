@@ -62,19 +62,18 @@
         <p><strong>Room:</strong> {{ $room->room_title }}</p>
         <p><strong>Dates:</strong> {{ $startDate }} to {{ $endDate }}</p>
         <p><strong>Price:</strong> {{ $room->price_per_night }} DZD</p>
+        <form method="POST" action="{{ route('handle.payment') }}">
 
-        <form method="POST" action="{{ route('paypal') }}">
             @csrf
             <input type="hidden" name="room_id" value="{{ $room->id }}">
             <input type="hidden" name="start_date" value="{{ $startDate }}">
             <input type="hidden" name="end_date" value="{{ $endDate }}">
             <input type="hidden" name="amount" value="{{ $room->price_per_night }}">
         
-            <input type="text" name="name" placeholder="Full Name" required>
-            <input type="email" name="email" placeholder="Email Address" required>
-            <input type="text" name="phone" placeholder="Phone Number" required>
+            
         
-            <button type="submit" class="paypal-btn">Pay with PayPal</button>
+            <button type="submit" class="paypal-btn"> Payment </button>
+            <a href="/room_details" class="home-btn">Return</a>
         </form>
         
     </div>

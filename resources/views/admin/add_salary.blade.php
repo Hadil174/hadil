@@ -3,13 +3,20 @@
 <head>
     @include('admin.css')
     <style type="text/css">
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+        }
+
         .form-container {
             max-width: 600px;
-            margin: 20px auto;
+            margin: 40px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #353434;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+            color: #e0e0e0;
         }
 
         .form-group {
@@ -20,39 +27,56 @@
             font-weight: bold;
             margin-bottom: 5px;
             display: block;
+            color: #cfd8dc;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 8px;
             font-size: 14px;
-            border: 1px solid #ccc;
+            border: 1px solid #555;
             border-radius: 5px;
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+            box-sizing: border-box;
         }
 
-        .form-group textarea {
-            height: 100px;
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #4caf50;
+            outline: none;
+            background-color: #3a3a3a;
         }
 
         .btn-submit {
             padding: 10px 20px;
-            background-color: #28a745;
+            background-color: #4caf50;
             color: white;
             font-size: 14px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            display: block;
+            width: 100%;
+            transition: background-color 0.3s ease;
         }
 
         .btn-submit:hover {
-            background-color: #218838;
+            background-color: #388e3c;
         }
 
-        .header-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e0e0e0;
         }
     </style>
 </head>
@@ -63,6 +87,7 @@
     <div class="page-content">
         <div class="container-fluid">
             <h2>Add Salary</h2>
+
             <div class="form-container">
                 <form action="{{ url('admin/add_salary') }}" method="POST">
                     @csrf

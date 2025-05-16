@@ -6,19 +6,69 @@
   <head> 
     @include('admin.css')
     <style type="text/css">
-        label{
+        body {
+            background-color: #121212;
+            font-family: 'Segoe UI', sans-serif;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+    
+        label {
             display: inline-block;
             width: 200px;
+            margin-bottom: 10px;
         }
-        .div_deg{
-            padding-top: 30px;
+    
+        .div_deg {
+            padding: 10px 0;
         }
-        .div_centre{
-            text-align: center;
-            padding-top: 40px;
+    
+        .form-container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 40px auto; /* center horizontally */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
-       
-        </style>
+    
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        textarea,
+        select,
+        input[type="file"] {
+            width: calc(100% - 210px); /* keep alignment with label */
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+            color: #f5f5f5;
+            font-size: 14px;
+        }
+    
+        textarea {
+            resize: vertical;
+        }
+    
+        button[type="submit"] {
+            margin-top: 20px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        button[type="submit"]:hover {
+            background-color: #219150;
+        }
+    </style>
+    
   </head> 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">

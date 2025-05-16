@@ -19,44 +19,39 @@ class ReceptionistController extends Controller
         }
         // ReceptionistController.php
   // Process check-in
-public function checkin($id)
-{
-    $booking = Booking::findOrFail($id);
-    
-    // Update booking status
-    $booking->update([
-        'status' => 'checked_in',
-        'actual_checkin' => now()
-    ]);
-    
-    // Update room status
-    $booking->room->update([
-        'status' => 'occupied'
-    ]);
-    
-    return redirect()->back()->with('success', 'Guest checked in successfully');
-}
-
-// Process check-out
-public function checkout($id)
-{
-    $booking = Booking::findOrFail($id);
-    
-    // Update booking status
-    $booking->update([
-        'status' => 'checked_out',
-        'actual_checkout' => now()
-    ]);
-    
-    // Update room status to need cleaning
-    $booking->room->update([
-        'status' => 'housekeeping',
-        'clean_status' => 'dirty'
-    ]);
-    
-    return redirect()->back()->with('success', 'Guest checked out successfully');
-}
-
+  public function checkin($id)
+  {
+      $booking = Booking::findOrFail($id);
+  
+      $booking->update([
+          'is_checked_in' => true,
+          'check_in' => now(),
+      ]);
+  
+      $booking->room->update([
+          'status' => 'occupied',
+      ]);
+  
+      return redirect()->back()->with('success', 'Guest checked in successfully');
+  }
+  
+  public function checkout($id)
+  {
+      $booking = Booking::findOrFail($id);
+  
+      $booking->update([
+          'is_checked_out' => true,
+          'check_out' => now(),
+      ]);
+  
+      $booking->room->update([
+          'status' => 'housekeeping',
+          'clean_status' => 'dirty',
+      ]);
+  
+      return redirect()->back()->with('success', 'Guest checked out successfully');
+  }
+  
         
         
         
@@ -171,11 +166,7 @@ public function createNewServiceRequest(Request $request)
 }
 
 
-// In your NewServiceRequest notification class
-// public function notification(){
-//     $data = Contact::all();
-//     return view('receptionist.notification',compact('data'));
-// }
+
 
 
 public function all_service_requests()

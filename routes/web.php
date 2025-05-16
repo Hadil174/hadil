@@ -38,7 +38,7 @@ Route::get('/add_salary', [AdminController::class, 'showAddSalaryForm']);
 Route::post('/add_salary', [AdminController::class, 'storeSalary']);
 
 Route::get('/salaries', [AdminController::class, 'viewSalaries']);
-Route::post('/add_booking/{id}', [BookingController::class, 'add_booking']);
+
 
 Route::get('/view_reservations', [AdminController::class, 'view_reservations']);
 Route::get('/delete_booking/{id}', [AdminController::class, 'delete_booking']);
@@ -65,6 +65,9 @@ Route::get('/today_checkins', [ReceptionistController::class, 'todayCheckins'])-
 Route::get('/today_checkouts', [ReceptionistController::class, 'todayCheckouts'])->name('today_checkouts');
 Route::get('/guest/services', [GuestController::class, 'showServices'])->middleware('auth');
 
+
+Route::get('/bookings/{id}/checkin', [BookingController::class, 'checkin'])->name('bookings.checkin');
+
     
 // View and manage additional services
 Route::get('services', [ReceptionistController::class, 'viewRequestedServices'])->name('services.index');
@@ -85,8 +88,25 @@ Route::post('/notifications/{id}/read', function ($id) {
 Route::get('/notification', [ReceptionistController::class, 'all_service_requests'])->name('receptionist.notifications');
 
 
-Route::post('paypal', [PaypalController::class, 'paypal'])->name('paypal');
-Route::get('success', [PaypalController::class, 'success'])->name('success');
-Route::get('cancel',[PaypalController::class,'cancel'])->name('cancel');
+// Booking routes
 
+Route::post('/add_booking/{id}', [BookingController::class, 'add_booking'])->name('add.booking');
+Route::post('/payment', [PaypalController::class, 'handlePayment'])->name('handle.payment');
+Route::get('/payment/success/{booking}', [PaypalController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/cancel/{booking}', [PaypalController::class, 'paymentCancel'])->name('payment.cancel');
+Route::get('/booking/success/{booking}', [BookingController::class, 'showSuccess'])->name('booking.success');
 
+Route::post('/process-booking/{room}', [BookingController::class, 'processBooking'])->name('process.booking');
+Route::get('/select-payment', function () {
+    $booking = session('pending_booking');
+    if (!$booking) return redirect('/')->with('error', 'No booking found.');
+
+    $room = \App\Models\Room::find($booking['room_id']);
+    $startDate = $booking['start_date'];
+    $endDate = $booking['end_date'];
+
+    return view('receptionist.select_payment', compact('room', 'startDate', 'endDate'));
+})->name('select.payment');
+Route::post('/receptionist/pay-on-site', [BookingController::class, 'payOnSite']);
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.body');
