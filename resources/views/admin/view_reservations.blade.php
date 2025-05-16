@@ -85,7 +85,7 @@
                             <th class="th_deg">Leaving Date</th>
                             <th class="th_deg">Status</th>
                             <th class="th_deg">Room Number</th>
-                            <th class="th_deg">Price</th>
+                            <th class="th_deg"> Total Price</th>
                             <th class="th_deg">Delete</th>
                             <th class="th_deg">Status Update</th>
                         </tr>
@@ -109,7 +109,7 @@
                                 @endif
                             </td>
                             <td>{{ $data->room->room_number }}</td>
-                            <td>{{ $data->room->price_per_night }}</td>
+                            <td>{{ $data->amount }} DA</td>
                             <td>
                                 <a onclick="return confirm('Are you sure to delete this?');" href="{{ url('delete_booking', $data->id) }}" class="btn btn-danger">Delete</a>
                             </td>

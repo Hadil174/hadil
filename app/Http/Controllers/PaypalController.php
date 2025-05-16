@@ -135,6 +135,13 @@ class PaypalController extends Controller
             ]);
 
             session()->forget('pending_booking');
+
+            if (auth()->check() && auth()->user()->usertype === 'receptionist') {
+                return view('receptionist.success', [
+                    'booking' => $booking,
+                    'staff' => auth()->user()
+                ]);
+            }
             return view('home.success', compact('booking'));
         }
     }

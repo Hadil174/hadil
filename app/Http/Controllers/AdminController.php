@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Salary;
 use App\Models\Booking;
 use App\Models\Contact;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -274,8 +274,63 @@ return view('admin.view_reservations',compact('data'));
         return view('home.services', compact('services'));
     }
     
+ 
 
+    public function showFinanceDashboard()
+{
+    $now = now();
+    
+    // Main revenue metrics
+    $metrics = [
+        'total' => (float)DB::table('bookings')
+            ->where('payment_status', 'completed')
+            ->sum('amount'),
+            
+        'monthly' => (float)DB::table('bookings')
+            ->where('payment_status', 'completed')
+            ->whereMonth('created_at', $now->month)
+            ->whereYear('created_at', $now->year)
+            ->sum('amount'),
+            
+        'unpaid' => (float)DB::table('bookings')
+            ->where('payment_status', '!=', 'completed')
+            ->sum('amount'),
+            
+        'today' => (float)DB::table('bookings')
+            ->where('payment_status', 'completed')
+            ->whereDate('created_at', $now->today())
+            ->sum('amount')
+    ];
 
+    // Payment methods breakdown (including manual_fallback)
+    $paymentMethods = DB::table('bookings')
+        ->select('payment_method', DB::raw('SUM(amount) as total'))
+        ->where('payment_status', 'completed')
+        ->groupBy('payment_method')
+        ->orderBy('total', 'desc')
+        ->get()
+        ->map(function ($item) {
+            return [
+                'method' => $item->payment_method == 'manual_fallback' 
+                           ? 'Manual Payment' 
+                           : ucfirst(str_replace('_', ' ', $item->payment_method)),
+                'total' => (float)$item->total
+            ];
+        });
+
+    return view('admin.finance', [
+        'metrics' => $metrics,
+        'paymentMethods' => $paymentMethods,
+        'currentPeriod' => $now->format('F Y')
+    ]);
+}
+public function deleteContact($id)
+{
+    $contact = Contact::findOrFail($id);
+    $contact->delete();
+
+    return redirect()->back()->with('success', 'Message deleted successfully.');
+}
     }
   
     

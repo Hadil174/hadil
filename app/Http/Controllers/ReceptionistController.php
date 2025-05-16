@@ -39,17 +39,23 @@ class ReceptionistController extends Controller
   {
       $booking = Booking::findOrFail($id);
   
+      // Update booking status
       $booking->update([
           'is_checked_out' => true,
           'check_out' => now(),
+          'status' => 'checked_out'
       ]);
   
+      // Update room status - mark as available but track cleaning separately
       $booking->room->update([
-          'status' => 'housekeeping',
-          'clean_status' => 'dirty',
+          'status' => 'available', // Must be one of the ENUM values
+          'clean_status' => 'dirty' // Track cleaning state separately
       ]);
   
-      return redirect()->back()->with('success', 'Guest checked out successfully');
+      return redirect()->back()->with([
+          'success' => 'Guest checked out successfully. Room '.$booking->room->room_number.' is now available.',
+          'alert_type' => 'success'
+      ]);
   }
   
         
@@ -164,7 +170,6 @@ public function createNewServiceRequest(Request $request)
 
     return back()->with('success', 'Service request submitted!');
 }
-
 
 
 

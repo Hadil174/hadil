@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamps();
             
     // Status fields
-         $table->enum('status', ['available', 'occupied', 'maintenance', 'housekeeping', 'out_of_order']);
+         $table->enum('status', ['available', 'occupied', 'out_of_order']);
          $table->enum('clean_status', ['clean', 'dirty', 'in_progress']);
 
 // Housekeeping

@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html>
   <head> 
@@ -67,16 +64,24 @@
         button[type="submit"]:hover {
             background-color: #219150;
         }
+        
+        /* Success message styling */
+        .alert-success {
+            background-color: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none; /* Hidden by default */
+        }
     </style>
-    
   </head> 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title> Admin </title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow
-  
+  <meta name="robots" content="all,follow">
   
   <body>
     @include('admin.header')
@@ -84,70 +89,87 @@
     <div class="page-content">
         <div class="page-header">
           <div class="container-fluid">
+            <!-- Success message div -->
+            @if(session('success'))
+            <div class="alert-success" id="success-message">
+                {{ session('success') }}
+            </div>
+            @endif
+            
             <form action="{{ url('/add_employee') }}" method="POST" enctype="multipart/form-data">
-
                 @csrf  <!-- Add CSRF token for security -->
                 <div class="div_deg">
-                <label for="first_name">First Name:</label>
-                <input type="text" id="first_name" name="first_name" required>
-            </div>
-           
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" required>
+                </div>
+               
                 <div class="div_deg">
-                <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="last_name" required>
-            </div>
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" required>
+                </div>
                 <div class="div_deg">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
                 <div class="div_deg">
-                <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone">
-            </div>
+                    <label for="phone">Phone:</label>
+                    <input type="text" id="phone" name="phone">
+                </div>
                 <div class="div_deg">
-                <label for="address">Address:</label>
-                <textarea id="address" name="address" rows="3"></textarea>
-            </div>
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" rows="3"></textarea>
+                </div>
                 <div class="div_deg">
-                <label for="role">Role:</label>
-                <select id="role" name="role" required>
-                    <option value="Receptionist">Receptionist</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Housekeeping">Housekeeping</option>
-                    <option value="Maintenance">Maintenance</option>
-                </select>
-            </div>
+                    <label for="role">Role:</label>
+                    <select id="role" name="role" required>
+                        <option value="Receptionist">Receptionist</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Housekeeping">Housekeeping</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
                 <div class="div_deg">
-                <label for="department">Department:</label>
-                <input type="text" id="department" name="department" required>
+                    <label for="department">Department:</label>
+                    <input type="text" id="department" name="department" required>
+                </div>
                 <div class="div_deg">
-                <label for="hire_date">Hire Date:</label>
-                <input type="date" id="hire_date" name="hire_date" required>
-            </div>
+                    <label for="hire_date">Hire Date:</label>
+                    <input type="date" id="hire_date" name="hire_date" required>
+                </div>
                 
                 <div class="div_deg">
-                <label for="employment_status">Employment Status:</label>
-                <select id="employment_status" name="employment_status" required>
-                    <option value="Active">Active</option>
-                    <option value="On Leave">On Leave</option>
-                    <option value="Terminated">Terminated</option>
-                </select>
-            </div>
+                    <label for="employment_status">Employment Status:</label>
+                    <select id="employment_status" name="employment_status" required>
+                        <option value="Active">Active</option>
+                        <option value="On Leave">On Leave</option>
+                        <option value="Terminated">Terminated</option>
+                    </select>
+                </div>
                 <div class="div_deg"> 
-                <label for="profile_picture">Profile Picture:</label>
-                <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
-            </div>
+                    <label for="profile_picture">Profile Picture:</label>
+                    <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+                </div>
                 <button type="submit">Add Employee</button>
-            </div>
             </form>
           </div>
         </div>
     </div>
    
     @include('admin.footer')
+    
+    <script>
+        // Show success message if it exists
+        document.addEventListener('DOMContentLoaded', function() {
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                successMessage.style.display = 'block';
+                
+                // Hide the message after 5 seconds
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
   </body>
 </html>
-
-
-
-

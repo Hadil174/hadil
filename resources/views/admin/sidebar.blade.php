@@ -55,8 +55,16 @@
              
           </ul>
       </li>
-      
-           
+      <li>
+        <a href="#financeDropdown" aria-expanded="false" data-toggle="collapse">
+            <i class="fas fa-chart-line"></i> Financial Overview
+        </a>
+        <ul id="financeDropdown" class="collapse list-unstyled">
+            <li><a href="{{ route('admin.finance') }}"> Financial Report</a></li>
+          
+        </ul>
+    </li>
+    
         
           
   </nav>

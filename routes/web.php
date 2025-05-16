@@ -110,3 +110,4 @@ Route::get('/select-payment', function () {
 Route::post('/receptionist/pay-on-site', [BookingController::class, 'payOnSite']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.body');
+Route::get('/finance', [AdminController::class, 'showFinanceDashboard'])->name('admin.finance');

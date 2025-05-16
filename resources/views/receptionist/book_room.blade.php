@@ -124,6 +124,16 @@
             color: #90cdf4;
         }
 
+        .alert-error {
+            background-color: #e53e3e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             .booking-container {
                 padding: 25px;
@@ -144,6 +154,13 @@
             <div class="container-fluid">
                 <div class="booking-container">
                     <div class="booking-header">Book Your Room</div>
+
+                    <!-- Error message if room is already booked -->
+                    @if(session('error'))
+                        <div class="alert-error">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     
                     <!-- Room Information -->
                     <div class="room-info">
@@ -200,10 +217,8 @@
             var day = dtToday.getDate();
             var year = dtToday.getFullYear();
             
-            if(month < 10)
-                month = '0' + month.toString();
-            if(day < 10)
-                day = '0' + day.toString();
+            if(month < 10) month = '0' + month.toString();
+            if(day < 10) day = '0' + day.toString();
             
             var minDate = year + '-' + month + '-' + day;
             

@@ -114,7 +114,7 @@
                         <input type="hidden" name="email" value="{{ session('pending_booking.email') }}">
                         <input type="hidden" name="phone" value="{{ session('pending_booking.phone') }}">
 
-                        <button type="submit" class="payment-btn btn-dark">Pay at Reception</button>
+                        <button type="submit" class="payment-btn btn-dark">Pay cash </button>
                     </form>
 
                     <!-- Pay with Card Form -->

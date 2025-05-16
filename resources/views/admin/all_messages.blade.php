@@ -4,86 +4,94 @@
     @include('admin.css')
     <style type="text/css">
         body {
-            background: #f6f9fc;
+            background: #121212;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e0e0e0;
         }
 
         .container {
-            max-width: 1200px;  /* Wider container to accommodate more cards */
+            max-width: 1100px;
             margin: 30px auto;
             padding: 10px;
-            display: flex;
-            flex-wrap: wrap;  /* Allow wrapping to the next row */
-            justify-content: space-between;  /* Distribute cards evenly */
         }
 
-        .message-card {
-            background: linear-gradient(to right, #ffffff, #fff7ed);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
-            padding: 15px;
-            margin-bottom: 15px;
-            position: relative;
-            transition: transform 0.2s ease;
-            width: 30%;  /* Adjust width to fit 3 cards per row */
-            margin-bottom: 20px; /* Margin for bottom spacing between rows */
-        }
-
-        .message-card:hover {
-            transform: scale(1.02);
-        }
-
-        .message-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 22px;
-            color: #f5a623;
-        }
-
-        .message-header {
-            font-size: 16px;
+        .page-title {
+            text-align: center;
+            font-size: 24px;
             font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
+            margin-bottom: 30px;
+            color: #ffffff;
         }
 
-        .message-subheader {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 8px;
+        .notification-card {
+            background: #1e1e1e;
+            border-left: 6px solid #00bcd4;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            transition: background-color 0.3s ease;
         }
 
-        .message-content {
+        .notification-card:hover {
+            background-color: #2a2a2a;
+        }
+
+        .notification-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 20px;
+            color: #00bcd4;
+        }
+
+        .notification-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .notification-meta {
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+
+        .notification-message {
             font-size: 14px;
-            color: #444;
-            margin-bottom: 12px;
-            line-height: 1.4;
+            color: #cccccc;
+            margin-bottom: 10px;
+            line-height: 1.6;
         }
 
         .btn-group {
             display: flex;
             justify-content: flex-end;
-            gap: 8px;
         }
 
         .btn-sm {
-            padding: 5px 8px;
             font-size: 12px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            background-color: #d9534f;
+            padding: 6px 12px;
+            border-radius: 4px;
+            background: #e53935;
             color: #fff;
+            border: none;
+            text-decoration: none;
+            transition: background 0.2s ease;
         }
 
-        .page-title {
+        .btn-sm:hover {
+            background: #c62828;
+        }
+
+        .alert-success {
             text-align: center;
-            font-size: 20px;
-            font-weight: 600;
-            color: #222;
+            padding: 10px;
+            background: #2e7d32;
+            color: #fff;
+            border: 1px solid #1b5e20;
+            border-radius: 4px;
             margin-bottom: 20px;
         }
     </style>
@@ -96,20 +104,20 @@
 
     <div class="page-content">
         <div class="container">
-            <div class="page-title">📩 </div>
+            <div class="page-title">🔔 Guest Messages</div>
 
             @if(session('success'))
-                <div class="alert alert-success text-center">{{ session('success') }}</div>
+                <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
             @foreach ($data as $data)
-                <div class="message-card">
-                    <div class="message-icon"><i class="fas fa-envelope-open-text"></i></div>
-                    <div class="message-header">{{ $data->name }}</div>
-                    <div class="message-subheader">{{ $data->email }} • {{ $data->phone }}</div>
-                    <div class="message-content">{{ Str::limit($data->message, 100) }}</div>
+                <div class="notification-card">
+                    <div class="notification-icon"><i class="fas fa-bell"></i></div>
+                    <div class="notification-header">{{ $data->name }}</div>
+                    <div class="notification-meta">{{ $data->email }} • {{ $data->phone }}</div>
+                    <div class="notification-message">{{ Str::limit($data->message, 120) }}</div>
                     <div class="btn-group">
-                        <a href="{{ url('contact_delete', $data->id) }}" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="{{ url('contact_delete', $data->id) }}" class="btn-sm">🗑️ Delete</a>
                     </div>
                 </div>
             @endforeach
