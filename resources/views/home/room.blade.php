@@ -1,5 +1,6 @@
 @php
     use Illuminate\Support\Str;
+    $count = 0;
 @endphp
 
 <style>
@@ -79,36 +80,67 @@
     .bed_room .btn:hover {
         background-color: #5a4a29;
     }
+
+    .view-all-btn {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .view-all-btn a {
+        background-color: #6e5d32;
+        color: white;
+        padding: 10px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .view-all-btn a:hover {
+        background-color: #5a4a29;
+    }
 </style>
 
 <div class="our_room">
-   <div class="container">
-       <div class="row">
-           <div class="col-md-12">
-               <div class="titlepage">
-                   <h2>Our Room</h2>
-                   <p>Lorem Ipsum available, but the majority have suffered</p>
-               </div>
-           </div>
-       </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="titlepage">
+                    <h2>Our Room</h2>
+                    <p>Lorem Ipsum available, but the majority have suffered</p>
+                </div>
+            </div>
+        </div>
 
-       <div class="row">
-           @foreach($room as $rooms)
-           <div class="col-md-4 col-sm-6">
-               <div id="serv_hover" class="room">
-                   <div class="room_img">
-                       <figure>
-                           <img src="room/{{ $rooms->images }}" alt="{{ $rooms->room_title }}" />
-                       </figure>
-                   </div>
-                   <div class="bed_room">
-                       <h3>{{ $rooms->room_title }}</h3>
-                       <p>{!! Str::limit($rooms->description, 100) !!}</p>
-                       <a class="btn" href="{{url('room_details',$rooms->id)}}">Room Details</a>
-                   </div>
-               </div>
-           </div>
-           @endforeach
-       </div>
-   </div>
+        <div class="row">
+            @foreach($room as $rooms)
+                @if($count >= 3)
+                    @break
+                @endif
+
+                <div class="col-md-4 col-sm-6">
+                    <div id="serv_hover" class="room">
+                        <div class="room_img">
+                            <figure>
+                                <img src="room/{{ $rooms->images }}" alt="{{ $rooms->room_title }}" />
+                            </figure>
+                        </div>
+                        <div class="bed_room">
+                            <h3>{{ $rooms->room_title }}</h3>
+                            <p>{!! Str::limit($rooms->description, 100) !!}</p>
+                            <a class="btn" href="{{ url('room_details', $rooms->id) }}">Room Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                @php $count++; @endphp
+            @endforeach
+        </div>
+
+        <div class="view-all-btn">
+            <a href="{{ url('/our_room') }}">View All Rooms</a>
+        </div>
+    </div>
 </div>

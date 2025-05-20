@@ -25,18 +25,60 @@
             Logout <i class="icon-logout"></i>
           </a>
         </div>
-        @php
-        $notifications = auth()->user()->unreadNotifications;
-    @endphp
-    
-    
-    
-          
-     
+        
+        @if(session('success'))
+          <div class="alert alert-success" style="padding: 5px 10px; margin: 0 10px; display: inline-block;">
+            {{ session('success') }}
+          </div>
+        @endif
+        @if(session('error'))
+          <div class="alert alert-danger" style="padding: 5px 10px; margin: 0 10px; display: inline-block;">
+            {{ session('error') }}
+          </div>
+        @endif
 
+        <div class="attendance-buttons" style="display: inline-flex; gap: 10px; margin-left: 15px;">
+          <form action="{{ route('receptionist.attendance.checkin') }}" method="POST">
+              @csrf
+              <button type="submit" class="btn-checkin" style="background-color: #584e4f94; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: 500; transition: background-color 0.3s;">
+                  <i class="fas fa-sign-in-alt" style="margin-right: 5px;"></i> Check In
+              </button>
+          </form>
+
+          <form action="{{ route('receptionist.attendance.checkout') }}" method="POST">
+              @csrf
+              <button type="submit" class="btn-checkout" style="background-color: #584e4f94; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: 500; transition: background-color 0.3s;">
+                  <i class="fas fa-sign-out-alt" style="margin-right: 5px;"></i> Check Out
+              </button>
+          </form>
+        </div>
+
+        @php
+          $notifications = auth()->user()->unreadNotifications;
+        @endphp
       </div>
     </div>
   </nav>
 </header>
 
-
+<style>
+  .btn-checkin:hover {
+    background-color: #b0b3b1 !important;
+  }
+  
+  .btn-checkout:hover {
+    background-color: #9e9d9d !important;
+  }
+  
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+</style>

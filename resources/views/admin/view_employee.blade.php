@@ -118,6 +118,7 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
+                    <h1 style="font-size: 30px ;font-wight:bold;">list Employee </h1>
                     <a href="{{ url('manage_employee') }}" class="btn btn-add">+ Add Employee</a>
                 </div>
 

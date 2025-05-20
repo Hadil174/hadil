@@ -9,8 +9,18 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Salary;
 use App\Models\Booking;
 use App\Models\Contact;
+use App\Models\Gallary;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\SendEmailNotif;  // Correct class name here
+
+
+
+
+ 
 
 
 class AdminController extends Controller
@@ -22,10 +32,13 @@ class AdminController extends Controller
                 return view('home.index',compact('room'));
             }else if(Auth::user()->usertype=='admin') {
                 return view('admin.home');
-            }elseif(Auth::user()->usertype== 'receptionist') { 
+            }elseif(Auth::user()->usertype== 'Receptionist') { 
                  return view('receptionist.home');
 
-            }
+            }elseif(Auth::user()->usertype== 'manager') { 
+                return view('service_manager.home');
+
+           }
         }else {
             return redirect()->back();
         }
@@ -34,8 +47,10 @@ class AdminController extends Controller
         return view('admin.create_room');
     }
     public function home(){
+
         $room =Room::all();
-        return view('home.index',compact('room'));
+        $gallary = Gallary::all();
+        return view('home.index',compact('room','gallary'));
     }
     public function add_room(Request $request)
     {
@@ -100,33 +115,54 @@ class AdminController extends Controller
         }
         
         public function add_employee(Request $request)
-{
-    $employee = new Employee;
-
-    $employee->first_name = $request->first_name;
-    $employee->last_name = $request->last_name;
-    $employee->email = $request->email;
-    $employee->phone = $request->phone;
-    $employee->address = $request->address;
-    $employee->hire_date = $request->hire_date;
-    $employee->department = $request->department;
-    $employee->role = $request->role;
-    $employee->employment_status = $request->employment_status;
-
-    // Handle profile picture upload
-    if ($request->hasFile('profile_picture')) {
-        $image = $request->file('profile_picture');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('employee_profiles'), $imageName);
-        $employee->profile_picture = $imageName; // match the actual DB column name
-    }
-    
-    
-
-    $employee->save();
-
-    return redirect()->back()->with('success', 'Employee added successfully!');
-}
+        {
+            $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'phone' => 'nullable|string',
+                'address' => 'nullable|string',
+                'hire_date' => 'nullable|date',
+                'department' => 'nullable|string',
+                'role' => 'required|string',
+                'employment_status' => 'nullable|string',
+                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+        
+            // 1. Créer l'utilisateur en premier
+            $user = new User;
+            $user->name = $request->first_name . ' ' . $request->last_name;
+            $user->email = $request->email;
+            $user->usertype = $request->role;
+            $user->password = Hash::make('password123'); // Change ce mot de passe par défaut plus tard !
+            $user->save();
+        
+            // 2. Créer l'employé en assignant l'user_id
+            $employee = new Employee;
+            $employee->user_id = $user->id;  // ici $user existe déjà
+            $employee->first_name = $request->first_name;
+            $employee->last_name = $request->last_name;
+            $employee->email = $request->email;
+            $employee->phone = $request->phone;
+            $employee->address = $request->address;
+            $employee->hire_date = $request->hire_date;
+            $employee->department = $request->department;
+            $employee->role = $request->role;
+            $employee->employment_status = $request->employment_status;
+        
+            if ($request->hasFile('profile_picture')) {
+                $image = $request->file('profile_picture');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('employee_profiles'), $imageName);
+                $employee->profile_picture = $imageName;
+            }
+        
+            $employee->save();
+        
+            return redirect()->back()->with('success', 'Employee and user account created successfully!');
+        }
+        
+        
 
         
         
@@ -331,6 +367,64 @@ public function deleteContact($id)
 
     return redirect()->back()->with('success', 'Message deleted successfully.');
 }
+
+public function our_room()
+{
+    $rooms = Room::all(); // Fetch rooms from the database
+    return view('home.our_room', compact('rooms')); // Pass data to Blade view
+}
+
+public function send_mail($id){
+    $data = Contact::find($id);
+    return view('admin.send_mail', compact('data'));
+}
+
+
+
+public function mail(Request $request, $id)
+{
+    $data = Contact::findOrFail($id);
+
+    $details = [
+        'greeting'   => $request->greeting,
+        'body'       => $request->body,
+        'actionText' => $request->actionText,
+        'actionURL'  => $request->actionURL,
+        'endline'    => $request->endline,
+    ];
+
+    Notification::send($data, new SendEmailNotif($details));
+
+    return redirect()->back()->with('success', 'Email envoyé avec succès !');
+}
+
+  public function view_gallery(){
+  $gallary = Gallary::all();
+  return view('admin.gallary', compact('gallary'));
+
+  }
+  public function upload_gallary(Request $request){
+    $data= new Gallary;
+    $image = $request->image;
+    if($image){
+        $imagename = time().'.'.$image->getClientOriginalExtension();
+        $request->image->move('gallary',$imagename);
+        $data->image = $imagename;
+        $data->save();
     }
-  
-    
+    return redirect()->back()->with('success', 'Image uploaded successfully!');
+
+  }
+    public function delete_gallery($id){
+        $data = Gallary::find($id);
+        $data->delete();
+        return redirect()->back()->with('success', 'Image deleted successfully!');
+    }
+    // make sure this model is imported
+
+public function view_gallerys() {
+    $gallary = Gallary::all();  // fetch all gallery images from DB
+    return view('home.gallery', compact('gallary'));  // pass data to the blade
+}
+
+}

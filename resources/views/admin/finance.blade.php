@@ -164,7 +164,7 @@
                     <div class="stat-title">
                         <i class="fas fa-wallet fa-icon"></i> Total Revenue
                     </div>
-                    <div class="stat-value">${{ number_format($metrics['total'], 2) }}</div>
+                    <div class="stat-value">{{ number_format($metrics['total'], 2) }} DA</div>
                     <div class="stat-subtext">All completed payments</div>
                 </div>
 
@@ -172,7 +172,7 @@
                     <div class="stat-title">
                         <i class="fas fa-calendar-alt fa-icon"></i> This Month
                     </div>
-                    <div class="stat-value">${{ number_format($metrics['monthly'], 2) }}</div>
+                    <div class="stat-value">{{ number_format($metrics['monthly'], 2) }} DA</div>
                     <div class="stat-subtext">{{ $currentPeriod }}</div>
                 </div>
 
@@ -180,7 +180,7 @@
                     <div class="stat-title">
                         <i class="fas fa-exclamation-triangle fa-icon"></i> Outstanding
                     </div>
-                    <div class="stat-value">${{ number_format($metrics['unpaid'], 2) }}</div>
+                    <div class="stat-value">{{ number_format($metrics['unpaid'], 2) }} DA</div>
                     <div class="stat-subtext">Pending payments</div>
                 </div>
 
@@ -188,7 +188,7 @@
                     <div class="stat-title">
                         <i class="fas fa-calendar-day fa-icon"></i> Today's Revenue
                     </div>
-                    <div class="stat-value">${{ number_format($metrics['today'], 2) }}</div>
+                    <div class="stat-value">{{ number_format($metrics['today'], 2) }} DA</div>
                     <div class="stat-subtext">{{ now()->format('l, M d') }}</div>
                 </div>
             </div>
@@ -196,7 +196,7 @@
             @if($metrics['unpaid'] > 0)
                 <div class="alert-warning">
                     <i class="fas fa-exclamation-circle fa-icon"></i> 
-                    You have ${{ number_format($metrics['unpaid'], 2) }} in outstanding payments that require attention.
+                    You have {{ number_format($metrics['unpaid'], 2) }} DA in outstanding payments that require attention.
                 </div>
             @endif
 
@@ -223,7 +223,7 @@
                                         <i class="fas fa-cash-register fa-icon"></i> {{ $method['method'] }}
                                 @endswitch
                             </span>
-                            <span class="method-amount">${{ number_format($method['total'], 2) }}</span>
+                            <span class="method-amount">{{ number_format($method['total'], 2) }} DA</span>
                         </div>
                     @empty
                         <p style="color: #b0b0b0;">No payment method data available</p>

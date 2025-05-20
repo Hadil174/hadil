@@ -19,8 +19,10 @@
     <div class="page-header">
       <div class="container-fluid">
        </div>
+       
       </div>
     </div>
+    @include('receptionist.footer')
      
     
   </body>

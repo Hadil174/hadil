@@ -122,10 +122,10 @@
                 <div class="div_deg">
                     <label for="role">Role:</label>
                     <select id="role" name="role" required>
-                        <option value="Receptionist">Receptionist</option>
-                        <option value="Manager">Manager</option>
-                        <option value="Housekeeping">Housekeeping</option>
-                        <option value="Maintenance">Maintenance</option>
+                        <option value="Receptionist">receptionist</option>
+                        <option value="Manager">manager</option>
+                        <option value="Housekeeping">housekeeping</option>
+                        <option value="Maintenance">maintenance</option>
                     </select>
                 </div>
                 <div class="div_deg">

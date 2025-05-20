@@ -38,7 +38,6 @@ class BookingController extends Controller
         }
     
         $room = Room::findOrFail($id);
-    
         $nights = \Carbon\Carbon::parse($startDate)->diffInDays(\Carbon\Carbon::parse($endDate));
         $nights = max(1, $nights);
         $totalAmount = $room->price_per_night * $nights;

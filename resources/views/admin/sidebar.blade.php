@@ -22,6 +22,7 @@
               <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                <li><a href="{{ url('create_room') }}">add Room</a></li> 
                 <li><a href="{{ url('view_room') }}">view room</a></li>
+                 <li><a href="{{ url('view_gallary') }}">Gallary</a></li>
                
               </ul>
             </li>
@@ -46,6 +47,13 @@
                 >
             </ul>
         </li>
+        
+           
+            
+               
+                
+            
+        
         <li>
           <a href="#messageDropdown" aria-expanded="false" data-toggle="collapse">
               <i class="fas fa-envelope"></i> Messages

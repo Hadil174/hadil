@@ -38,5 +38,13 @@ public function cleanedRooms()
 {
     return $this->hasMany(Room::class, 'last_cleaned_by');
 }
+public function attendance()
+{
+    return $this->hasMany(Attendance::class);
+}
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
 
 }

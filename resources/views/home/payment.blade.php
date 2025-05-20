@@ -83,12 +83,12 @@
         }
 
         .btn-pay {
-            background-color: #003087; /* PayPal blue */
+            background-color: #cea536; 
             color: white;
         }
 
         .btn-pay:hover {
-            background-color: #002366;
+            background-color: #857519;
         }
 
         .btn-return {
@@ -156,7 +156,7 @@
             <input type="hidden" name="amount" value="{{ $room->price_per_night }}">
             
             <div class="button-group">
-                <a href="/room_details" class="btn btn-return">
+                <a href="/our_room" class="btn btn-return">
                     <i class="fas fa-arrow-left"></i> Return to Room
                 </a>
                 <button type="submit" class="btn btn-pay">

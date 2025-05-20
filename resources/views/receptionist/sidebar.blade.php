@@ -161,15 +161,7 @@
               </a>
           </li>
   
-          <li class="sidebar-section-title">Reports</li>
-          <li>
-              <a href="{{ url('occupancy_report') }}">
-                  <i class="fas fa-chart-line"></i>
-                  <span>Occupancy Report</span>
-              </a>
-          </li>
-          <!-- resources/views/layouts/receptionist-notifications.blade.php -->
-
+          
       </ul>
 
   </nav>

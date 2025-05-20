@@ -2,25 +2,27 @@
 <html lang="en">
 <head>
     <base href="/public">
+    @include('receptionist.header')
     @include('receptionist.css')
-    <title>Booking Receipt</title>
+    <title>Official Booking Receipt</title>
     <style type="text/css">
         :root {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
-            --secondary: #64748b;
-            --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent: #6366f1;
-            --border: #334155;
+            --primary: #000000;         /* Black as primary color */
+            --primary-light: #333333;   /* Dark gray */
+            --secondary: #555555;       /* Medium gray */
+            --dark-bg: #121212;         /* Dark background */
+            --card-bg: #1a1a1a;         /* Slightly lighter black */
+            --text-primary: #ffffff;    /* White text */
+            --text-secondary: #cccccc;  /* Light gray */
+            --accent: #4d4d4d;          /* Accent color */
+            --border: #333333;          /* Border color */
+            --highlight: #2a2a2a;       /* Highlight color */
         }
         
         body {
             background-color: var(--dark-bg);
             color: var(--text-primary);
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-family: 'Georgia', 'Times New Roman', serif;
             line-height: 1.6;
         }
         
@@ -32,104 +34,117 @@
         
         .receipt-card {
             background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 0;            /* Sharp corners for formal look */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            border: 1px solid var(--border);
+            border: 2px solid var(--primary);
         }
         
         .receipt-header {
             background: var(--primary);
             padding: 1.5rem;
             text-align: center;
-            color: white;
+            border-bottom: 2px solid var(--accent);
         }
         
         .receipt-header h2 {
-            font-weight: 600;
+            font-weight: 700;
             margin: 0;
-            font-size: 1.5rem;
-            letter-spacing: 0.5px;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            color: white;
+            text-transform: uppercase;
+            font-family: 'Helvetica', 'Arial', sans-serif;
         }
         
         .receipt-body {
-            padding: 2rem;
+            padding: 2.5rem;
         }
         
         .receipt-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .section-title {
-            color: var(--primary);
-            font-weight: 500;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.7rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
         
         .detail-grid {
             display: grid;
             grid-template-columns: 1fr 2fr;
-            gap: 1rem;
-            margin-bottom: 0.8rem;
+            gap: 1.2rem;
+            margin-bottom: 1rem;
         }
         
         .detail-label {
             color: var(--text-secondary);
             font-weight: 500;
+            font-size: 1.05rem;
         }
         
         .detail-value {
             font-weight: 400;
+            color: var(--text-primary);
         }
         
         .total-section {
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 2rem;
+            background: var(--highlight);
+            border-radius: 4px;
+            padding: 2rem;
+            margin-top: 2.5rem;
             border: 1px solid var(--border);
         }
         
         .total-row {
             display: flex;
             justify-content: space-between;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            margin-bottom: 0.8rem;
         }
         
         .grand-total {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px dashed var(--border);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed var(--border);
         }
         
         .receipt-footer {
             text-align: center;
-            padding: 1.5rem;
-            border-top: 1px solid var(--border);
+            padding: 1.8rem;
+            border-top: 2px solid var(--border);
+            background: var(--highlight);
         }
         
         .btn-print {
             background: var(--primary);
             color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
-            font-weight: 500;
+            border: 1px solid var(--text-secondary);
+            padding: 0.85rem 2.5rem;
+            border-radius: 0;            /* Sharp corners */
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.95rem;
         }
         
         .btn-print:hover {
-            background: var(--primary-dark);
+            background: var(--primary-light);
+            border-color: white;
         }
         
         @media print {
@@ -139,87 +154,92 @@
             }
             .receipt-card {
                 box-shadow: none;
-                border: none;
+                border: 2px solid black !important;
             }
             .btn-print {
                 display: none;
+            }
+            .detail-value {
+                color: black !important;
             }
         }
         
         @media (max-width: 640px) {
             .detail-grid {
                 grid-template-columns: 1fr;
-                gap: 0.5rem;
+                gap: 0.3rem;
+            }
+            .receipt-body {
+                padding: 1.5rem;
             }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Helvetica:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    @include('receptionist.header')
     @include('receptionist.sidebar')
 
     <div class="page-content">
         <div class="receipt-container">
             <div class="receipt-card">
                 <div class="receipt-header">
-                    <h2>BOOKING RECEIPT</h2>
+                    <h2><i class="fas fa-hotel"></i> OFFICIAL BOOKING RECEIPT</h2>
                 </div>
                 
                 <div class="receipt-body">
                     <div class="receipt-section">
-                        <h3 class="section-title">Booking Information</h3>
+                        <h3 class="section-title">Transaction Details</h3>
                         <div class="detail-grid">
-                            <div class="detail-label">Booking Reference:</div>
-                            <div class="detail-value">#{{ $booking->id }}</div>
+                            <div class="detail-label">Receipt Number:</div>
+                            <div class="detail-value">#{{ str_pad($booking->id, 8, '0', STR_PAD_LEFT) }}</div>
                             
-                            <div class="detail-label">Date Issued:</div>
-                            <div class="detail-value">{{ now()->format('d M Y, h:i A') }}</div>
+                            <div class="detail-label">Date & Time:</div>
+                            <div class="detail-value">{{ now()->format('F j, Y \a\t g:i A') }}</div>
+                            
+                            <div class="detail-label">Status:</div>
+                            <div class="detail-value" style="color: #4CAF50;">CONFIRMED</div>
                         </div>
                     </div>
                     
                     <div class="receipt-section">
-                        <h3 class="section-title">Room Details</h3>
+                        <h3 class="section-title">Accommodation Details</h3>
                         <div class="detail-grid">
                             <div class="detail-label">Room Number:</div>
                             <div class="detail-value">{{ $room->room_number }}</div>
                             
-                            <div class="detail-label">Room Type:</div>
-                            <div class="detail-value">{{ $room->room_type }}</div>
+                            <div class="detail-label">Room Category:</div>
+                            <div class="detail-value">{{ ucfirst($room->room_type) }}</div>
                             
-                            <div class="detail-label">Room Title:</div>
+                            <div class="detail-label">Description:</div>
                             <div class="detail-value">{{ $room->room_title }}</div>
                         </div>
                     </div>
                     
                     <div class="receipt-section">
-                        <h3 class="section-title">Stay Details</h3>
+                        <h3 class="section-title">Reservation Period</h3>
                         <div class="detail-grid">
-                            <div class="detail-label">Check-in Date:</div>
-                            <div class="detail-value">{{ \Carbon\Carbon::parse($booking->start_date)->format('d M Y') }}</div>
+                            <div class="detail-label">Check-in:</div>
+                            <div class="detail-value">{{ \Carbon\Carbon::parse($booking->start_date)->format('l, F j, Y') }}</div>
                             
-                            <div class="detail-label">Check-out Date:</div>
-                            <div class="detail-value">{{ \Carbon\Carbon::parse($booking->end_date)->format('d M Y') }}</div>
+                            <div class="detail-label">Check-out:</div>
+                            <div class="detail-value">{{ \Carbon\Carbon::parse($booking->end_date)->format('l, F j, Y') }}</div>
                             
-                            <div class="detail-label">Nights:</div>
+                            <div class="detail-label">Duration:</div>
                             <div class="detail-value">
-                                @php
-                                    $nights = \Carbon\Carbon::parse($booking->start_date)->diffInDays($booking->end_date);
-                                    echo $nights;
-                                @endphp
+                                {{ $nights = \Carbon\Carbon::parse($booking->start_date)->diffInDays($booking->end_date) }} 
+                                night(s)
                             </div>
                         </div>
                     </div>
                     
                     <div class="total-section">
-                        <h3 class="section-title">Payment Summary</h3>
+                        <h3 class="section-title">Payment Breakdown</h3>
                         
                         <div class="detail-grid">
+                     
                             
-                            
-                            
-                            <div class="detail-label">Room Subtotal:</div>
+                            <div class="detail-label">Room Charges:</div>
                             <div class="detail-value">{{ number_format($room->price_per_night * $nights, 2) }} DA</div>
                             
                             @php
@@ -228,13 +248,13 @@
                             
                             @if($additionalServicePrice > 0)
                                 <div class="detail-label">Additional Services:</div>
-                                <div class="detail-value">{{ number_format($additionalServicePrice, 2) }} DA</div>
+                                <div class="detail-value">+ {{ number_format($additionalServicePrice, 2) }} DA</div>
                             @endif
                         </div>
                         
                         <div class="grand-total">
                             <div class="total-row">
-                                <span>TOTAL:</span>
+                                <span>TOTAL AMOUNT:</span>
                                 <span>{{ number_format(($room->price_per_night * $nights) + $additionalServicePrice, 2) }} DA</span>
                             </div>
                         </div>
@@ -243,8 +263,11 @@
                 
                 <div class="receipt-footer">
                     <button onclick="window.print()" class="btn-print">
-                        <i class="fas fa-print"></i> Print Receipt
+                        <i class="fas fa-print"></i> PRINT OFFICIAL RECEIPT
                     </button>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        Thank you for choosing our establishment
+                    </p>
                 </div>
             </div>
         </div>

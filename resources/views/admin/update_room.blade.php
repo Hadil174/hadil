@@ -137,9 +137,13 @@ button:hover {
                         <label for="room_type">Room Type</label>
                         <select id="room_type" name="room_type" required>
                             <option selected value="{{ $data->room_type }}">{{ ucfirst($data->room_type) }}</option>
-                            <option value="single">Single</option>
-                            <option value="double">Double</option>
-                            <option value="suite">Suite</option>
+                       <option value="single">Single – One bed, ideal for one person</option>
+                    <option value="double">Double – One double bed, for two people</option>
+                    <option value="twin">Twin – Two separate beds</option>
+                    <option value="suite">Suite – Luxury room with living area</option>
+                    <option value="family">Family – Accommodates 3–4 people, multiple beds</option>
+                    <option value="deluxe">Deluxe – Enhanced amenities and space</option>
+                    <option value="presidential">Presidential Suite – Top-tier luxury</option>
                         </select>
                     </div>
 

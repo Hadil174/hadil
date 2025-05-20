@@ -7,7 +7,7 @@ use App\Models\Room;
 use App\Models\Booking;
 use App\Models\Employee;
 use App\Models\AlternativeService;
-use App\Notifications\NewServiceRequest;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
@@ -62,7 +62,7 @@ class ReceptionistController extends Controller
         
         
 public function list_booking(){
-    $data = Booking::with('room')->get(); // ✅ eager load to avoid N+1 problem
+    $data = Booking::with('room')->get(); 
     return view('receptionist.list_booking', compact('data'));
 }
 public function delete_booking($id) {
@@ -78,7 +78,7 @@ public function delete_booking($id) {
 public function manageRoomStatus($id)
 {
     $room = Room::with('lastCleanedBy')->findOrFail($id);
-    $employees = Employee::all(); // For assigning cleaner
+    $employees = Employee::all(); 
     return view('receptionist.room_status', compact('room', 'employees'));
 }
 

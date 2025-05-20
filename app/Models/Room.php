@@ -48,7 +48,7 @@ public function getImageUrlAttribute()
     {
         return $this->hasMany(\App\Models\Booking::class);
     }
-    // app/Models/Room.php
+  
 
 public function lastCleanedBy()
 {

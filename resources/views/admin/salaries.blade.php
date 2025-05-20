@@ -118,7 +118,7 @@
                         @if($salary->employee)
                             <tr>
                                 <td>{{ $salary->employee->first_name }} {{ $salary->employee->last_name }}</td>
-                                <td>${{ $salary->amount }}</td>
+                                <td>{{ $salary->amount }}DA</td>
                                 <td>{{ $salary->payment_date }}</td>
                                 <td>{{ $salary->notes }}</td>
                             </tr>

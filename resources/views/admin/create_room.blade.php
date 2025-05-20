@@ -84,7 +84,12 @@
             <div class="page-header">
               <div class="container-fluid">
                 <form action="{{ url('/add_room') }}" method="POST" enctype="multipart/form-data">
-                    @csrf  <!-- ✅ Add this line to include CSRF token -->
+                    @csrf  
+                    @if(session('success'))
+                    <div style="background-color: #d4edda; padding: 10px; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; margin-bottom: 20px;">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                     <div class="div_centre">
                         <h1 style="font-size: 30px ;font-wight:bold;">Add Rooms </h1>
 
@@ -104,18 +109,24 @@
                 <textarea id="description" name="description" rows="3" required></textarea>
             </div>
             <div class="div_deg">
-                <label for="price_per_night">Price per Night ($):</label>
+                <label for="price_per_night">Price per Night (DA):</label>
                 <input type="number" id="price_per_night" name="price_per_night" step="0.01" required>
             </div>
             
-          <div class="div_deg">  
-        <label for="room_type">Room Type:</label>
-        <select id="room_type" name="room_type" required>
-            <option value="single">Single</option>
-            <option value="double">Double</option>
-            <option value="suite">Suite</option>
-        </select>
-    </div>
+            <div class="div_deg">  
+                <label for="room_type">Room Type:</label>
+                <select id="room_type" name="room_type" required>
+                    <option value="">-- Select Room Type --</option>
+                    <option value="single">Single – One bed, ideal for one person</option>
+                    <option value="double">Double – One double bed, for two people</option>
+                    <option value="twin">Twin – Two separate beds</option>
+                    <option value="suite">Suite – Luxury room with living area</option>
+                    <option value="family">Family – Accommodates 3–4 people, multiple beds</option>
+                    <option value="deluxe">Deluxe – Enhanced amenities and space</option>
+                    <option value="presidential">Presidential Suite – Top-tier luxury</option>
+                </select>
+            </div>
+            
    
     <div class="div_deg">
         <label for="status">Room Status:</label>
@@ -134,11 +145,8 @@
 <div>
         <button type="submit">Add Room</button>
     </div>
-    @if(session('success'))
-    <div style="background-color: #d4edda; padding: 10px; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; margin-bottom: 20px;">
-        {{ session('success') }}
-    </div>
-@endif
+   
+
     </form>
        
               </div>

@@ -1,6 +1,6 @@
-@extends('layouts.app')
 
-@section('content')
+
+
     <div class="container">
         <h2>Booking Saved</h2>
         <p>{{ $error }}</p>
@@ -15,4 +15,4 @@
             <li><strong>Payment Status:</strong> {{ $booking->payment_status }}</li>
         </ul>
     </div>
-@endsection
+

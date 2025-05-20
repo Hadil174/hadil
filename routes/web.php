@@ -6,7 +6,8 @@ use App\Http\Controllers\bookingController;
 use App\Http\Controllers\ReceptionistController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\PaypalController;
-use App\Models\AlternativeService; // ✅ CORRECT
+use App\Models\AlternativeService; 
+use App\Http\Controllers\ServiceManagerController;
 
 
 
@@ -46,6 +47,8 @@ Route::get('/approve_book/{id}', [AdminController::class, 'approve_book']);
 Route::get('/reject_book/{id}', [AdminController::class, 'reject_book']);
 Route::post('/contact', [AdminController::class, 'contact']);
 Route::get('/all_messages', [AdminController::class, 'all_messages']);
+Route::get('/contact_delete/{id}', [AdminController::class, 'deleteContact'])->name('contact.delete');
+
 Route::get('/list_room', [ReceptionistController::class, 'list_room']);
 Route::get('/list_booking', [ReceptionistController::class, 'list_booking']);
 
@@ -109,5 +112,24 @@ Route::get('/select-payment', function () {
 })->name('select.payment');
 Route::post('/receptionist/pay-on-site', [BookingController::class, 'payOnSite']);
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.body');
+
 Route::get('/finance', [AdminController::class, 'showFinanceDashboard'])->name('admin.finance');
+
+Route::get('/our_room', [AdminController::class, 'our_room']);
+
+
+Route::get('/service-manager/room-status', [ServiceManagerController::class, 'viewRoomStatusWithCleaningStaff'])->name('service_manager.room_status');
+Route::post('/receptionist/checkin', [ServiceManagerController::class, 'checkIn'])->name('receptionist.attendance.checkin');
+Route::post('/receptionist/checkout', [ServiceManagerController::class, 'checkOut'])->name('receptionist.attendance.checkout');
+
+
+Route::get('/service_manager/attendance', [ServiceManagerController::class, 'attendanceDashboard'])->name('service_manager.attendance.dashboard');
+Route::get('/send_mail/{id}', [AdminController::class, 'send_mail'])->name('send_mail');
+Route::post('/mail/{id}', [AdminController::class, 'mail'])->name('send_mail');
+Route::get('/view_gallary', [AdminController::class, 'view_gallery']);
+Route::post('/upload_gallary', [AdminController::class, 'upload_gallary']);
+
+Route::get('/delete_gallery/{id}', [AdminController::class, 'delete_gallery'])->name('gallery.delete');
+
+Route::get('/gallery', [AdminController::class, 'view_gallerys'])->name('gallery.view');
+

@@ -118,6 +118,7 @@
                     <div class="notification-message">{{ Str::limit($data->message, 120) }}</div>
                     <div class="btn-group">
                         <a href="{{ url('contact_delete', $data->id) }}" class="btn-sm">🗑️ Delete</a>
+                        <a href="{{ url('send_mail/'.$data->id) }}" class="btn-sm" style="background:#c4c6c7; margin-left: 10px;">📧 Send Mail</a>
                     </div>
                 </div>
             @endforeach
